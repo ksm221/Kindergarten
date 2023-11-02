@@ -1,0 +1,28 @@
+﻿@page
+@using System.Data.SqlClient;
+
+@{
+    try
+    {
+        String Id = Request.Query["Id"];
+
+        String connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=Kindergarten2;Integrated Security=True";
+        using (SqlConnection connection = new SqlConnection(connectionString))
+        {
+            connection.Open();
+
+            String sql = "DELETE FROM Kindergartens WHERE Id=@Id";
+            using (SqlCommand command = new SqlCommand(sql, connection))
+            {
+                command.Parameters.AddWithValue("@Id", Id);
+
+                command.ExecuteNonQuery();
+            }
+        }
+    }
+    catch (Exception ex)
+    {
+
+    }
+    Response.Redirect("/Kindergartens/Index");
+}
